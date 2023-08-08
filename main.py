@@ -1,25 +1,34 @@
-import pyglet as pt
+import pyglet 
+from pyglet.window import key
 
-window = pt.window.Window(720, 720, "GWP", resizable=True)
+window = pyglet.window.Window(800, 600, "GWP", resizable=True) 
 
+# game
 
-# Sprites
-player = pt.sprite.Sprite(pt.resource.image("img/game/player.png"),  x= 10 , y=  80)
-platforms = [pt.sprite.Sprite(pt.resource.image("img/game/platform.png"), x= 1, y = 1),
-             pt.sprite.Sprite(pt.resource.image("img/game/platform.png"), x= 150, y = player.width)]
+# sprites
+bg_game = pyglet.sprite.Sprite(pyglet.resource.image("img/game/bg.png"), x = 0, y = 0)
+floor = pyglet.sprite.Sprite(pyglet.resource.image("img/game/floor.png"), x = 0, y = -250)
+player = pyglet.sprite.Sprite(pyglet.resource.image("img/game/player.png"), x= 10, y = 150)
+spike_1 = pyglet.sprite.Sprite(pyglet.resource.image("img/game/spike.png"), x = 1920, y = 150)
 
-# Bool variables
-game = True
-speed = 150
-
-jump_power = 9000
-jump_count = 1
-floor = 0
+# label
+start = pyglet.text.Label('Press space to start!',
+                          font_name='Times New Roman',
+                          font_size=72,
+                          x=window.width//2, y=window.height//2,
+                          anchor_x='center', anchor_y='center')
 
 # control
-keys = pt.window.key.KeyStateHandler()
+keys = pyglet.window.key.KeyStateHandler()
 window.push_handlers(keys)
 
+# bool variables
+game = False
+
+# int variables
+count_jump = 1
+
+# functions
 def check_collision(bird_hitbox, floor_hitbox):
     x1 = bird_hitbox.x
     y1 = bird_hitbox.y
@@ -35,46 +44,47 @@ def check_collision(bird_hitbox, floor_hitbox):
     else:
         return False
 
-def fall(p, platform):
-    global jump_count
-    if not check_collision(p, platform) and jump_count == 0:
-        p.y -= 0.7 
-    else:
-        if jump_count == 0:
-            p.y = platform.height
-            jump_count = 1
-        if not check_collision(p, platform):
-            p.y -= 1
-            jump_count = 0
-
-def control(pr, dt):
-    if keys[pt.window.key.D] :
-        pr.x += speed * dt
-        
-    elif keys[pt.window.key.A] and pr.x > 0:
-        pr.x -= speed * dt
-        
-    global jump_count
-    if keys[pt.window.key.SPACE] and jump_count > 0:
-        pr.y += jump_power * dt
-        jump_count -= 1
-
 @window.event
 def on_draw():
+    window.clear()
+    
     if game:
-        window.clear()
+        bg_game.draw()
+        floor.draw()
         player.draw()
-        for i in range(len(platforms)):
-            platforms[i].draw()
+        spike_1.draw()
+    else:
+        start.draw()
 
 def update(dt):
+    global game, count_jump
     if game:
+        if spike_1.x + spike_1.width > 0:
+            spike_1.x -= 450 * dt
+        else:
+            spike_1.x = 1920
+            
+        if keys[key.UP] and count_jump > 0:
+            player.y += player.width
+            count_jump -= 1
         
-        for i in range(len(platforms)):
-            fall(player, platforms[i])
+        if check_collision(player, floor):
+            count_jump = 1
+        else:
+            player.y -= 100 * dt
         
-        control(player, dt)
+        if check_collision(player, spike_1):
+            spike_1.x = 1920
+            player.y = 150
+            game = False
+            
         
+    else:
+        start.x = window.width//2
+        start.y = window.height//2
+        if keys[key.SPACE]:
+            game = True
+     
 
-pt.clock.schedule_interval(update, 1/144)
-pt.app.run()
+pyglet.clock.schedule_interval(update, 1/144)
+pyglet.app.run()
