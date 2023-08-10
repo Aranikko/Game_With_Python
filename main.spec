@@ -37,6 +37,7 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    icon=['icon_gd2.2.ico'],
 )
 coll = COLLECT(
     exe,
