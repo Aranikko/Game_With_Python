@@ -1,16 +1,15 @@
 import pyglet 
 from pyglet.window import key
-from collishon import check_collision
 
 window = pyglet.window.Window(800, 600, "GWP", resizable=True) 
 
 # game
 
 # sprites
-bg_game = pyglet.sprite.Sprite(pyglet.resource.image("img/bg.png"), x = 0, y = 0)
-floor = pyglet.sprite.Sprite(pyglet.resource.image("img/floor.png"), x = 0, y = -250)
-player = pyglet.sprite.Sprite(pyglet.resource.image("img/player.png"), x= 10, y = 150)
-spike_1 = pyglet.sprite.Sprite(pyglet.resource.image("img/spike.png"), x = 1920, y = 150)
+bg_game = pyglet.sprite.Sprite(pyglet.resource.image("bg.png"), x = 0, y = 0)
+floor = pyglet.sprite.Sprite(pyglet.resource.image("floor.png"), x = 0, y = -250)
+player = pyglet.sprite.Sprite(pyglet.resource.image("player.png"), x= 10, y = 150)
+spike_1 = pyglet.sprite.Sprite(pyglet.resource.image("spike.png"), x = 1920, y = 150)
 
 # control
 keys = pyglet.window.key.KeyStateHandler()
@@ -44,6 +43,22 @@ score_label = pyglet.text.Label(f'score: {score}',
                           anchor_x='center', anchor_y='center')
 
 # functions
+
+def check_collision(bird_hitbox, floor_hitbox):
+    x1 = bird_hitbox.x
+    y1 = bird_hitbox.y
+    x2 = bird_hitbox.x + bird_hitbox.width
+    y2 = bird_hitbox.y + bird_hitbox.height
+ 
+    x3 = floor_hitbox.x
+    y3 = floor_hitbox.y
+    x4 = floor_hitbox.x + floor_hitbox.width
+    y4 = floor_hitbox.y + floor_hitbox.height
+    if x1 < x4 and x2 > x3 and y1 < y4 and y2 > y3:
+        return True
+    else:
+        return False
+
 @window.event
 def on_draw():
     window.clear()
