@@ -2,14 +2,15 @@ import pyglet
 from pyglet.window import key
 
 window = pyglet.window.Window(800, 600, "GWP", resizable=True) 
+window.set_icon(pyglet.image.load("icon_gd2.2.png"))
 
 # game
 
 # sprites
-bg_game = pyglet.sprite.Sprite(pyglet.resource.image("bg.png"), x = 0, y = 0)
-floor = pyglet.sprite.Sprite(pyglet.resource.image("floor.png"), x = 0, y = -250)
-player = pyglet.sprite.Sprite(pyglet.resource.image("player.png"), x= 10, y = 150)
-spike_1 = pyglet.sprite.Sprite(pyglet.resource.image("spike.png"), x = 1920, y = 150)
+bg_game = pyglet.sprite.Sprite(pyglet.resource.image("img/bg.png"), x = 0, y = 0)
+floor = pyglet.sprite.Sprite(pyglet.resource.image("img/floor.png"), x = 0, y = -250)
+player = pyglet.sprite.Sprite(pyglet.resource.image("img/player.png"), x= 10, y = 150)
+spike_1 = pyglet.sprite.Sprite(pyglet.resource.image("img/spike.png"), x = 1920, y = 150)
 
 # control
 keys = pyglet.window.key.KeyStateHandler()

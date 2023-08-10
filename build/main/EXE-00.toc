@@ -1,5 +1,5 @@
 ('D:\\Game_With_Python\\build\\main\\main.exe',
- True,
+ False,
  False,
  True,
  ['D:\\Game_With_Python\\icon_gd2.2.ico'],
@@ -40,7 +40,7 @@
  [],
  False,
  False,
- 1691660133,
- [('run.exe',
-   'C:\\Users\\Aranikko\\AppData\\Local\\Programs\\Python\\Python310\\lib\\site-packages\\PyInstaller\\bootloader\\Windows-64bit-intel\\run.exe',
+ 1691660743,
+ [('runw.exe',
+   'C:\\Users\\Aranikko\\AppData\\Local\\Programs\\Python\\Python310\\lib\\site-packages\\PyInstaller\\bootloader\\Windows-64bit-intel\\runw.exe',
    'EXECUTABLE')])
